@@ -1,0 +1,182 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Quantum Traitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1ff;--card:#fff;--ink:#181a3a;--mut:#5d6394;--line:#d8ddf7;--acc:#0a8fd6;--hot:#e0245e;--ok:#12a36b;--dot:#c9cfee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0d26;--card:#1b1842;--ink:#e9eaff;--mut:#9a9fd6;--line:#2c2860;--acc:#4fd1ff;--hot:#ff4f86;--ok:#3ddc97;--dot:#38356f}}
+:root[data-theme=dark]{--bg:#0f0d26;--card:#1b1842;--ink:#e9eaff;--mut:#9a9fd6;--line:#2c2860;--acc:#4fd1ff;--hot:#ff4f86;--ok:#3ddc97;--dot:#38356f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 'Chakra Petch',system-ui,sans-serif;padding-bottom:88px}
+header{display:flex;align-items:center;gap:10px;padding:14px 16px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--line)}
+h1{font-size:20px;margin:0;flex:1;letter-spacing:.02em}h1 b{color:var(--hot)}
+h2{font-size:14px;margin:18px 0 8px;color:var(--mut);font-weight:600}
+main{max-width:560px;margin:0 auto;padding:0 16px}
+#stats{display:flex;gap:6px}.pill{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:2px 9px;font-size:13px}
+button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ic{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pl{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 6px;text-align:center;transition:transform .15s,border-color .15s}
+.pl:active{transform:scale(.96)}.pl.sel{border-color:var(--hot);box-shadow:0 0 0 4px color-mix(in srgb,var(--hot) 22%,transparent)}
+.pl.dead{opacity:.45;filter:grayscale(1)}.av{font-size:32px;line-height:1.2}.pl small{display:block;color:var(--mut);font-size:11px;min-height:15px}
+.bar{display:block;height:5px;border-radius:9px;background:var(--dot);margin-top:5px;overflow:hidden}.bar u{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--hot));transition:width .5s}
+.rt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.flow{font-size:22px;display:flex;align-items:center;gap:8px}.flow span{color:var(--mut);font-size:14px}.flow small{font-size:11px;color:var(--mut)}
+.dots{display:flex;gap:4px;margin:10px 0}.dots em{flex:1;height:14px;border-radius:5px;background:var(--dot)}
+.dots em.o{background:var(--ok)}.dots em.x{background:var(--hot)}
+.pop{animation:pop .35s backwards}@keyframes pop{from{transform:scale(0) rotate(90deg);opacity:0}}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.go,.ghost,.row button{border-radius:12px;padding:9px 16px;font-weight:700;border:1px solid var(--line);background:var(--card)}
+.go{background:var(--hot);border-color:var(--hot);color:#fff}.row button{color:var(--acc);border-color:var(--acc)}button:disabled{opacity:.4}.in{padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;width:58%}
+#log{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 12px;max-height:170px;overflow:auto;font-size:14px}#log p{margin:5px 0}
+footer{position:fixed;left:0;right:0;bottom:0;display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);z-index:5}footer .go{flex:1}
+#end,#dr,#ch{position:fixed;inset:0;background:rgba(8,6,30,.7);z-index:9;display:flex;align-items:center;justify-content:center;padding:16px}[hidden]{display:none!important}
+.box,.sheet{background:var(--card);border-radius:20px;padding:22px;max-width:480px;width:100%;text-align:center;animation:pop .4s}.big{font-size:60px}
+.sheet{text-align:left;max-height:86%;display:flex;flex-direction:column;padding:16px}#tc{overflow:auto;flex:1;margin:10px 0;font-size:14px}
+.tabs{display:flex;gap:6px}.tabs button{flex:1;padding:7px;border-radius:10px;border:1px solid var(--line);background:none;font-size:13px}.tabs .on{background:var(--acc);color:#fff;border-color:var(--acc)}
+dt{font-weight:700;color:var(--acc)}dd{margin:0 0 10px}pre{font-size:11.5px;overflow:auto;white-space:pre;background:var(--bg);padding:10px;border-radius:10px}li{margin-bottom:8px}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:99px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:10}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header><h1>⚛ Quantum <b>Traitor</b></h1><div id="stats"></div><button class="ic" id="chat" aria-label="Room chat">💬<sup id="ub" style="color:var(--hot);font-weight:700"></sup></button><button class="ic" id="help" aria-label="Rules and glossary">?</button></header>
+<main><h2>Agents — tap a suspect to select. Bar = suspicion.</h2><div id="players" class="grid"></div>
+<h2>Quantum routes this round</h2><div id="routes"></div><h2>Comms</h2><div id="log"></div></main>
+<footer><button class="ghost" id="skip">Skip vote</button><button class="go" id="vote">Vote</button><button class="go" id="send" hidden>Send qubits</button></footer>
+<div id="end" hidden></div><aside id="dr" hidden><div class="sheet"><div class="tabs" id="tabs"></div><div id="tc"></div><button class="ghost" id="cl">Close</button></div></aside><aside id="ch" hidden><div class="sheet"><h2 style="margin:0 0 8px;color:var(--ink)">Room chat</h2><div id="cl2" style="flex:1;overflow:auto;min-height:120px;font-size:14px"></div><div style="display:flex;gap:8px;margin:10px 0"><input id="ci" class="in" maxlength="140" placeholder="Say something…" style="flex:1;width:auto"><button class="go" id="cs">Send</button></div><button class="ghost" id="cx">Close</button></div></aside><div id="toast"></div>
+
+
+
+
+
+<script>
+const $=s=>document.querySelector(s),rnd=n=>Math.floor(Math.random()*n),sh=a=>[...a].sort(()=>Math.random()-.5);
+
+const NAMES=[["You","🧑‍🚀"],["Nova","👩‍🔬"],["Kai","🤖"],["Zed","🦊"],["Mira","🐙"],["Rex","👾"]];
+
+const RULES=["Six agents share a quantum network. One is secretly the Traitor (Eve), tapping links. You are always an agent.",
+"Each round, 3 routes send qubits Sender → Relay → Receiver. A traitor acting as relay may intercept.",
+"Run a Sample Check: 16 qubits are compared. Green = match, red = error. Normal noise gives 0–2 errors. 3+ is suspicious.",
+"Find who the bad routes share, usually the relay. Spend a 🔎 Probe (2 per game) to re-sample a route.",
+"Read the comms, but the Traitor lies and will try to frame you.",
+"Vote to eject or skip. Eject the Traitor to win. You lose if you are ejected, or the Traitor survives 5 rounds or until 3 agents remain.","Traitor mode: you relay one route each round. Pick Off, Light or Heavy tap, then Send qubits. Heavy steals 3 data but causes more errors. Steal 10 data or outlast 5 rounds to win. Your vote can frame an innocent. Agents win if they eject you.","Multiplayer: one player hosts and shares the 4-letter code or invite link, and friends join from any browser. Bots fill empty seats. Roles are kept secret on the server."];
+
+
+const GLOSS=[["Qubit","A quantum bit. Measuring it can change it."],["Basis","The way a qubit is measured. A wrong basis gives random results."],["BB84","The first quantum key exchange protocol. Sender and receiver compare bases to build a shared key."],["Eavesdropper (Eve)","The spy who measures qubits in transit."],["Intercept-resend","Eve measures a qubit and sends a copy on. This adds about 25% errors."],["No-cloning theorem","An unknown quantum state cannot be copied perfectly. This is why Eve leaves traces."],["QBER","Quantum Bit Error Rate: the share of sampled bits that mismatch. High QBER means someone is listening."],["Noise","Natural errors from hardware. Low QBER is harmless."],["Sample check","Publicly comparing a few key bits to measure QBER."],["Relay","A middle node that passes qubits along."],["Probe","A second sample of a route to reduce doubt."]];
+
+const IDEAS=["Accounts, leaderboards and a public lobby of open rooms.","Two traitors who secretly coordinate their taps.","Real physics: a Qiskit service that runs actual BB84 circuits and noise models.","Roles: Auditor (free probes), Engineer (fixes one noisy link), Decoy (fake error on own link).","Timed votes, emoji reactions and quick chat to force snap decisions.","Daily seeded challenge with shareable results.","XP, ranks, streak bonuses, badges like 'Caught in 2 rounds'.","Round events: solar storm (more noise), hardware upgrade, blackout.","Sound, haptics and a qubit-stream animation on every check.","Spectator mode and match replay of the hidden taps.","Tutorial mode with a guaranteed easy traitor.","Colour-blind safe mode: shapes on error bits."];
+
+const DATA=`type Role = 'agent' | 'traitor'
+interface Player { id:number; name:string; avatar:string;
+  role:Role; alive:boolean; suspicion:number }
+interface Route { id:number; sender:number; relay:number;
+  receiver:number; sampled:number; errors:number;
+  tapped:boolean; intensity:number }  // last two hidden
+interface Vote { voter:number; target:number | 'skip' }
+interface ChatMsg { from:number | -1; text:string; t:number }
+interface Room { code:string; seed:number; round:number;
+  phase:'lobby'|'check'|'discuss'|'vote'|'reveal'|'over';
+  players:Player[]; routes:Route[]; votes:Vote[];
+  probes:number[]; log:ChatMsg[] }
+// QBER = errors / sampled
+// P(error) = 0.04 noise + 0.25 * intensity if tapped`;
+
+
+const TABS={Rules:()=>'<ol>'+RULES.map(x=>`<li>${x}</li>`).join('')+'</ol>',Glossary:()=>GLOSS.map(([a,b])=>`<dl><dt>${a}</dt><dd>${b}</dd></dl>`).join(''),Data:()=>`<pre>${DATA}</pre>`,Ideas:()=>'<ul>'+IDEAS.map(x=>`<li>${x}</li>`).join('')+'</ul>'};
+function tab(n){$('#tabs').innerHTML=Object.keys(TABS).map(k=>`<button class="${k==n?'on':''}" data-t="${k}">${k}</button>`).join('');$('#tc').innerHTML=TABS[n]()}
+let G,sel=null;
+const alive=()=>G.players.filter(p=>p.alive),T=()=>G.players.find(p=>p.role=='traitor');
+function t(m){const e=$('#toast');e.textContent=m;e.style.opacity=1;setTimeout(()=>e.style.opacity=0,1800)}
+function say(i,x){G.log.push({i,t:x})}
+function start(){$('#end').hidden=0;$('#end').innerHTML=`<div class="box"><div class="big">⚛</div><h2 style="font-size:22px;color:var(--ink)">Choose your role</h2><p>Hunt the spy, or be the spy.</p><button class="go" onclick="begin('agent')">Agent: find the traitor</button><p><button class="ghost" onclick="begin('traitor')">Traitor: steal 10 data</button></p><p><button class="ghost" onclick="mlobby()">Play with friends</button></p><button class="ghost" id="help2">Rules and glossary</button></div>`}
+function begin(mode){$('#end').hidden=1;const tm=mode=='traitor';G={mode,intel:0,tap:1,sent:0,round:1,probes:2,score:0,over:0,log:[],players:NAMES.map(([name,e],id)=>({id,name,e,alive:1,role:'agent',sus:0}))};G.players[tm?0:1+rnd(5)].role='traitor';sel=null;say(-1,tm?"You are the traitor. Tap links, stay hidden, steal 10 data.":"One of five is tapping our quantum links. Find them.");newRound()}
+function newRound(){const a=alive(),tr=T(),H=G.mode=='traitor',tk=H?rnd(3):tr.alive&&Math.random()<.7?rnd(3):-1;G.sent=0;
+G.routes=[0,1,2].map(k=>{const pool=a.filter(p=>!H||p!=tr),r=k==tk?tr:pool[rnd(pool.length)],[s,d]=sh(a.filter(p=>p!=r)),tap=!H&&r==tr&&Math.random()<.85,inten=.5+Math.random()*.5;
+return{s:s.id,r:r.id,d:d.id,n:0,err:0,bits:[],p:.04+(tap?.25*inten:0)}});
+say(-1,`Round ${G.round}: run sample checks, then vote.`);render()}
+function check(k){const r=G.routes[k];if(G.over)return;if(r.n&&G.probes<1)return t('No probes left');if(r.n)G.probes--;else if(G.mode!='traitor')G.score+=5;
+r.bits=Array.from({length:16},()=>Math.random()<r.p);const e=r.bits.filter(Boolean).length;r.n+=16;r.err+=e;
+[[r.r,1],[r.s,.3],[r.d,.3]].forEach(([i,w])=>{const p=G.players[i];p.sus=Math.max(0,p.sus+(e-1.2)*w)});
+const N=i=>G.players[i].name;
+if(e>=3){const b=sh(alive().filter(p=>p.id&&p.id!=r.r))[0];say(b.id,`${e}/16 errors on ${N(r.s)}→${N(r.r)}→${N(r.d)}. That relay looks shady.`);
+const tr=T();if(tr.alive&&tr.id&&tr.id!=r.r&&Math.random()<.6)say(tr.id,`Could be noise. I'd look at ${N(r.s==tr.id?r.d:r.s)}.`)}
+else say(-1,`${N(r.s)}→${N(r.r)}→${N(r.d)}: ${e}/16 errors. Looks clean.`);
+r.fresh=1;render();r.fresh=0}
+function send(){if(G.over||G.sent)return;G.sent=1;G.intel+=[0,1,3][G.tap];G.score+=[0,10,30][G.tap];G.routes.forEach((r,k)=>{if(r.r==0)r.p=.04+.25*[0,.3,1][G.tap];check(k)});if(G.intel>=10){G.score+=100;end(1,'You stole 10 data and vanished.')}}
+function vote(skip){if(G.over)return;if(!skip&&sel==null)return t('Tap a suspect first');
+const tl={},c=k=>tl[k]=(tl[k]||0)+1,a=alive(),tr=T();c(skip?'s':sel);
+a.filter(p=>p.id).forEach(b=>{const o=sh(a.filter(p=>p!=b));if(b==tr)c(o[0].id);else{const s=o.map(p=>[p,p.sus+Math.random()*1.5]).sort((x,y)=>y[1]-x[1])[0];c(s[1]>1.2?s[0].id:'s')}});
+const mx=Math.max(...Object.values(tl)),top=sh(Object.keys(tl).filter(k=>tl[k]==mx))[0];
+say(-1,'Votes: '+Object.entries(tl).map(([k,v])=>`${k=='s'?'Skip':G.players[k].name} ${v}`).join(', '));
+if(top!='s'){const p=G.players[+top];p.alive=0;
+if(p.role=='traitor'){if(G.mode=='traitor')return end(0,'The agents traced the leak to you.');G.score+=100+G.probes*15+(5-G.round)*10;return end(1,`${p.e} ${p.name} was the traitor. Network secured.`)}
+G.score=Math.max(0,G.score+(G.mode=='traitor'?25:-25));if(!p.id)return end(0,`You were ejected. The traitor was ${tr.e} ${tr.name}.`);
+say(-1,`${p.name} was innocent. The traitor is still tapping.`)}else say(-1,'No one was ejected.');
+if(alive().length<=3||G.round>=5){if(G.mode=='traitor'){G.score+=50;return end(1,'You stayed hidden to the end.')}}if(alive().length<=3||G.round>=5)return end(0,`The traitor ${tr.e} ${tr.name} survived.`);
+G.round++;G.players.forEach(p=>p.sus*=.7);sel=null;newRound()}
+function end(w,m){G.over=1;render();$('#end').hidden=0;$('#end').innerHTML=`<div class="box"><div class="big">${w?'🏆':'💥'}</div><h2 style="font-size:22px;color:var(--ink)">${w?'Traitor exposed':'Network breached'}</h2><p>${m}</p><p>⭐ ${G.score} points</p><button class="go" onclick="start()">Play again</button></div>`}
+function render(){
+$('#stats').innerHTML=`<span class="pill">R${G.round}/5</span><span class="pill">${G.mode=='traitor'?'🕵️ '+G.intel+'/10':'🔎 '+G.probes}</span><span class="pill">⭐ ${G.score}</span>`;
+$('#players').innerHTML=G.players.map(p=>`<button class="pl ${p.alive?'':'dead'} ${sel==p.id?'sel':''}" data-id="${p.id}"><div class="av">${p.e}</div><b>${p.name}</b><small>${p.alive?(p.id?'':'you'):(p.role=='traitor'?'traitor':'ejected')}</small><i class="bar"><u style="width:${Math.min(100,p.sus*22)}%"></u></i></button>`).join('');
+$('#routes').innerHTML=G.routes.map((r,k)=>{const P=i=>G.players[i];return `<div class="rt"><div class="flow">${P(r.s).e}<span>→</span>${P(r.r).e}<small>relay</small><span>→</span>${P(r.d).e}</div><div class="dots">${Array.from({length:16},(_,i)=>`<em class="${r.n?(r.bits[i]?'x':'o'):''} ${r.fresh?'pop':''}" style="animation-delay:${i*45}ms"></em>`).join('')}</div><div class="row"><span>${r.n?`Errors ${r.err}/${r.n} (${Math.round(r.err/r.n*100)}%)`:'Not checked'}</span>${G.mode=='traitor'?(r.r==0&&!G.sent?'<span>'+[['Off',0],['Light',1],['Heavy',2]].map(([n,v])=>`<button data-l="${v}" style="${G.tap==v?'background:var(--hot);color:#fff':''}">${n}</button>`).join(' ')+'</span>':''):`<button data-k="${k}" ${r.n&&!G.probes?'disabled':''}>${r.n?'Probe':'Check'}</button>`}</div></div>`}).join('');
+$('#log').innerHTML=G.log.slice(-25).map(m=>`<p><b>${m.i<0?'🛰️ System':G.players[m.i].e+' '+G.players[m.i].name}:</b> ${m.t}</p>`).join('');$('#log').scrollTop=1e5;
+$('#vote').textContent=sel==null?'Vote':'Eject '+G.players[sel].name;const w=G.mode=='traitor'&&!G.sent;$('#send').hidden=!w||!!G.over;$('#vote').disabled=$('#skip').disabled=w}
+document.onclick=e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+if(d.id!=null){const p=G.players[d.id];if(p.alive&&p.id&&!G.over){sel=p.id;render()}}
+else if(d.k!=null)check(+d.k);else if(d.l!=null){G.tap=+d.l;render()}else if(b.id=='send')send();else if(d.t)tab(d.t);else if(b.id=='vote')vote();else if(b.id=='skip')vote(1);
+else if(b.id=='help'||b.id=='help2'){$('#dr').hidden=0;tab('Rules')}else if(b.id=='cl')$('#dr').hidden=1}
+
+const esc=x=>String(x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const INV=((location.search+location.hash).match(/room=([a-z0-9]{4})/i)||[])[1]||'';
+const M={on:0,chat:[],unread:0,sel:null};
+const rid=()=>Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2);
+let PID;try{PID=sessionStorage.getItem('qt_pid');if(!PID){PID=rid();sessionStorage.setItem('qt_pid',PID)}}catch(e){PID=rid()}
+const invt=()=>'Join my Quantum Traitor room '+M.code.toUpperCase()+': '+location.origin+location.pathname+'?room='+M.code;
+const er=m=>{const e=$('#merr');if(e)e.textContent=m};
+const key=()=>M.S?M.S.S.id+':'+M.S.S.rd:'';
+const me=()=>M.L&&M.L.you;
+function mlobby(){$('#end').hidden=0;$('#end').innerHTML=`<div class="box"><div class="big">👥</div><h2 style="font-size:22px;color:var(--ink)">Play with friends</h2><p>Share a room code or invite link. Bots fill empty seats.</p><p><input id="nm" class="in" placeholder="Your name" maxlength="12"></p><button class="go" onclick="mjoin(1)">Host a room</button><p><input id="cd" class="in" placeholder="Room code" maxlength="4" value="${INV}"> <button class="ghost" onclick="mjoin(0)">Join</button></p><p id="merr" style="color:var(--hot);font-size:13px"></p><button class="ghost" onclick="start()">Back</button></div>`}
+function mjoin(h,c,n){
+const code=c||(h?Math.random().toString(36).slice(2,6):($('#cd').value||'').trim().toLowerCase()),nm=(n||($('#nm')&&$('#nm').value)||'Player').slice(0,12);
+if(location.protocol=='file:')return er('Open the game from the server address (for example http://localhost:3000), not by double-clicking the file.');
+if(!/^[a-z0-9]{4}$/.test(code))return er('Enter a 4-character code');
+if(M.es)M.es.close();M.code=code;M.S=null;M.L=null;M.chat=[];M.sel=null;er('Connecting…');
+const es=M.es=new EventSource('/events?'+new URLSearchParams({room:code,pid:PID,n:nm,create:h?1:0}));
+es.addEventListener('lobby',e=>{M.L=JSON.parse(e.data);M.on=1;try{sessionStorage.setItem('qt_s',JSON.stringify({c:code,n:nm}))}catch(x){}draw()});
+es.addEventListener('state',e=>{M.S=JSON.parse(e.data);M.rt=Date.now();M.on=1;draw()});
+es.addEventListener('hist',e=>{M.chat=[];JSON.parse(e.data).forEach(addChat);M.unread=0;$('#ub').textContent=''});
+es.addEventListener('chat',e=>addChat(JSON.parse(e.data)));
+es.addEventListener('problem',e=>{M.on=0;es.close();try{sessionStorage.removeItem('qt_s')}catch(x){}mlobby();er(JSON.parse(e.data).m)});
+es.onerror=()=>{if(M.on)t('Connection lost. Reconnecting…')};
+setTimeout(()=>{if(!M.on&&M.es==es){er('Cannot reach the server. Check your connection.')}},8000)}
+function act(a,x){fetch('/act',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:M.code,pid:PID,a,...x})}).catch(()=>{})}
+function addChat(m){M.chat.push(m);if($('#ch').hidden&&m.u!==me())M.unread++;$('#ub').textContent=M.unread||'';if(!$('#ch').hidden)drawChat()}
+function drawChat(){$('#cl2').innerHTML=M.chat.slice(-60).map(m=>`<p style="margin:6px 0;${m.u===me()?'text-align:right':''}"><b>${esc(m.e+' '+m.n)}</b><br>${esc(m.t)}</p>`).join('')||'<p>No messages yet. Say hi!</p>';$('#cl2').scrollTop=1e5}
+function csend(){const i=$('#ci'),x=i.value.trim().slice(0,140);if(!x||!M.on)return;act('chat',{t:x});i.value=''}
+function tk(){const e=$('#tm');if(e&&M.S)e.textContent='⏱ '+Math.max(0,Math.ceil((M.S.S.tl-(Date.now()-M.rt))/1000))+'s'}
+function draw(){if(!M.on)return;const S=M.S&&M.S.S,L=M.L||{players:[],you:0};$('#send').hidden=1;
+const share=`<p><input class="in" readonly style="width:92%;font-size:12px" value="${esc(invt())}" onclick="this.select()"></p><p><button class="ghost" id="minv">Share invite</button></p>`;
+if(!S){$('#end').hidden=0;$('#end').innerHTML=`<div class="box"><div class="big">👥</div><h2 style="font-size:22px;color:var(--ink)">Room ${M.code.toUpperCase()}</h2><p>${L.players.map(p=>esc(p.e+' '+p.n)).join('<br>')}</p>${share}${L.host===L.you?'<button class="go" id="mstart">Start game</button>':'<p>Waiting for the host…</p>'}</div>`;return}
+const my=S.pl[M.S.me],tr=M.S.tr,vk=M.vr===key(),tp=M.tpr&&M.tpr.k===key()?M.tpr.l:-1;
+$('#end').hidden=!S.ov;if(S.ov)$('#end').innerHTML=`<div class="box"><div class="big">${S.ov.w=='a'?'🏆':'🕵️'}</div><h2 style="font-size:22px;color:var(--ink)">${S.ov.w=='a'?'Agents win':'Traitor wins'}</h2><p>${esc(S.ov.m)}</p>${L.host===L.you?'<button class="go" id="mstart">Play again</button>':'<p>Waiting for the host…</p>'}</div>`;
+$('#stats').innerHTML=`<span class="pill">R${S.rd}/5</span><span class="pill" id="tm"></span>${tr?`<span class="pill">🕵️ ${M.S.it}/10</span>`:''}`;
+document.querySelector('main h2').textContent=my?(tr?'You are the traitor. Stay hidden.':'You are an agent. Find the traitor.'):'Spectating';
+$('#players').innerHTML=S.pl.map(p=>`<button class="pl ${p.a?'':'dead'} ${M.sel==p.i?'sel':''}" data-i="${p.i}"><div class="av">${p.e}</div><b>${esc(p.n)}</b><small>${S.ov&&S.ov.tr==p.i?'traitor':my&&p.i==my.i?'you':p.h?'human':'bot'}</small><i class="bar"><u style="width:${Math.min(100,p.s*22)}%"></u></i></button>`).join('');
+$('#routes').innerHTML=S.rt.map(r=>{const Q=i=>S.pl[i];return `<div class="rt"><div class="flow">${Q(r.s).e}<span>→</span>${Q(r.r).e}<small>relay</small><span>→</span>${Q(r.d).e}</div><div class="dots">${Array.from({length:16},(_,i)=>`<em class="${r.n?(r.b>>i&1?'x':'o'):''}"></em>`).join('')}</div><div class="row"><span>${r.n?`Errors ${r.er}/16`:'Waiting…'}</span>${S.ph=='tap'&&tr&&r.r==my.i?'<span>'+[['Off',0],['Light',1],['Heavy',2]].map(([n,l])=>`<button data-l="${l}" style="${tp==l?'background:var(--hot);color:#fff':''}">${n}</button>`).join(' ')+'</span>':''}</div></div>`}).join('');
+$('#log').innerHTML=S.lg.map(([i,x])=>`<p><b>${i<0?'🛰️ System':S.pl[i].e+' '+esc(S.pl[i].n)}:</b> ${esc(x)}</p>`).join('');$('#log').scrollTop=1e5;
+$('#vote').disabled=$('#skip').disabled=!(my&&my.a&&S.ph=='vote'&&!S.ov&&!vk);$('#vote').textContent=vk?'Vote locked':M.sel==null?'Vote':'Eject '+S.pl[M.sel].n;tk()}
+setInterval(tk,500);
+$('#ci').onkeydown=e=>{if(e.key=='Enter')csend()};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+if(b.id=='chat'){if(!M.on)return t('Join a room to chat with friends');$('#ch').hidden=0;M.unread=0;$('#ub').textContent='';drawChat();$('#ci').focus();return}
+if(b.id=='cs'){csend();return}if(b.id=='cx'){$('#ch').hidden=1;return}
+if(!M.on)return;const S=M.S&&M.S.S;let h=1;
+if(d.i!=null){if(S&&S.pl[d.i].a){M.sel=+d.i;draw()}}
+else if(d.l!=null){M.tpr={k:key(),l:+d.l};act('tap',{l:+d.l});draw()}
+else if(b.id=='vote'||b.id=='skip'){const sk=b.id=='skip';if(!sk&&M.sel==null)t('Tap a suspect first');else{act('vote',{t:sk?'s':M.sel});M.vr=key();M.sel=null;draw()}}
+else if(b.id=='mstart')act('start');
+else if(b.id=='minv'){const x=invt();if(navigator.share)navigator.share({text:x}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(x).then(()=>t('Invite copied'),()=>t('Copy the text in the box'));else t('Copy the text in the box')}
+else h=0;if(h)e.stopImmediatePropagation()},true);
+start();let sr=null;try{sr=JSON.parse(sessionStorage.getItem('qt_s'))}catch(e){}
+if(sr&&sr.c&&(!INV||INV==sr.c))mjoin(0,sr.c,sr.n);else if(INV)mlobby();
+
+
+</script></body></html>

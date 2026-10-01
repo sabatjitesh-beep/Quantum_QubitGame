@@ -1,0 +1,8 @@
+{
+  "name": "quantum-traitor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Public multiplayer server for the Quantum Traitor deduction game",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
